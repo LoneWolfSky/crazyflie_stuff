@@ -88,29 +88,29 @@ def custom_function(mc):
     print("Hello")
     print("Let's get this bread")
     time.sleep(1)
-    mc.forward(0.4,0.5)
+    mc.forward(0.3,0.5)
     time.sleep(1)
     mc.right(current_possition.d_right - 0.2, 0.5)
     farthest = 0
-    farthestPos = 0
+    farthestI = 0
     for i in range(18):
         if current_possition.d_front >= farthest:
             farthest = current_possition.d_front
-            farthestPos = [current_possition.x, current_possition.y, current_possition.z]
-            print("New Farthest!", farthest, farthestPos)
+            farthestI = i
+            print("New Farthest!", farthest, farthestI)
         
         print("Blocked/Shorter", current_possition.d_front, current_possition.x + current_possition.y)
 
         mc.left(0.1, 0.5)
         time.sleep(1)
 
-
-    print(farthestPos, farthest)
-    dirX = farthestPos[0] - current_possition.x
-    dirY = farthestPos[1] - current_possition.y
-    dirZ = farthestPos[2] - current_possition.z
-    mc.move_distance(dirX, dirY, dirZ)
-    mc.forward(3.2, .75)
+    print(farthestI, farthest, "Going!!!!!! LFGGGGG")
+    mc.right((18-farthestI) * 0.1, 0.5)
+    mc.forward(3.7, .75)
+    mc.up(1,.5)
+    loc = [1.01, 0.65] #this is what the fwd and right readings should be in a perfect world
+    actLoc = [current_possition.d_front, current_possition.d_right] # this is the drone's current values for those readings
+    mc.move_distance(loc[0] - actLoc[0], loc[1] - actLoc[1], 0, 0.5)
     mc.land()
 
 

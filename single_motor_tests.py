@@ -28,8 +28,9 @@ def simple_connect():
     print("Goodbye world ;(")
 
 def actual_takeoff(scf):
-    with MotionCommander(scf, default_height=0.5) as mc:
+    with MotionCommander(scf, default_height=0.8) as mc:
         time.sleep(3)
+        flip(mc)
         mc.stop()
 
 def param_stab_est_callback(name, value):
@@ -53,7 +54,15 @@ def simple_param_async(scf, groupstr, namestr):
         mc.land()
 
 def flip(mc):
-    mc.land()
+    cf = scf.cf
+    cf.param.set_value("motorPowerSet.enable", 1)
+    cf.param.set_value("motorPowerSet.m1", 64000)
+    cf.param.set_value("motorPowerSet.m2", 64000)
+    cf.param.set_value("motorPowerSet.m3", 64000)
+    cf.param.set_value("motorPowerSet.m4", 64000)
+    time.sleep(0.5)
+    cf.param.set_value("motorPowerSet.enable", 0)
+    time.sleep(3)
 
 #this is a comment
     
@@ -85,7 +94,7 @@ def take_off_simple(scf):
                     flip(mc)
                 case 'p':
                     break
-                case _:
+                case 'space':
                     mc.stop()
             time.sleep(0.1)
             print(key_pressed)
@@ -139,8 +148,8 @@ if __name__ == '__main__':
 
         print("check3")
 
-        take_off_simple(scf)
+        #take_off_simple(scf)
 
-        #actual_takeoff(scf)
+        actual_takeoff(scf)
         
         #simple_param_async(scf, "skbidi", "toilet")
