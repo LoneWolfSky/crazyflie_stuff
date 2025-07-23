@@ -66,11 +66,11 @@ class State():
         self.y = data['stateEstimate.y']
         self.z = data['stateEstimate.z']
         self.yaw = data['stateEstimate.yaw']
-        self.d_left = data['range.left']
-        self.d_right = data['range.right']
-        self.d_front = data['range.front']
-        self.d_back = data['range.back']
-        self.d_bottom = data['range.zrange']
+        self.d_left = data['range.left']/1000
+        self.d_right = data['range.right']/1000
+        self.d_front = data['range.front']/1000
+        self.d_back = data['range.back']/1000
+        self.d_bottom = data['range.zrange']/1000
 
 current_possition = State()
 
@@ -82,8 +82,9 @@ def position_update_callback(timestamp, data, logconf):
     global current_possition
     current_possition.update(data, timestamp)
 
+
 def custom_function(mc):
-    mc.take_off(height=0.75, velocity=0.6)
+    mc.take_off(height=0.7, velocity=1)
     print("Hello")
     print("Let's get this bread")
     time.sleep(1)
@@ -92,13 +93,14 @@ def custom_function(mc):
     mc.right(current_possition.d_right - 0.2, 0.5)
     farthest = 0
     farthestPos = 0
-
     for i in range(18):
-        if current_possition.d_front <= farthest:
+        if current_possition.d_front >= farthest:
             farthest = current_possition.d_front
             farthestPos = [current_possition.x, current_possition.y, current_possition.z]
-            print(current_possition.d_front, current_possition.x)
+            print("New Farthest!", farthest, farthestPos)
         
+        print("Blocked/Shorter", current_possition.d_front, current_possition.x + current_possition.y)
+
         mc.left(0.1, 0.5)
         time.sleep(1)
 
@@ -108,8 +110,9 @@ def custom_function(mc):
     dirY = farthestPos[1] - current_possition.y
     dirZ = farthestPos[2] - current_possition.z
     mc.move_distance(dirX, dirY, dirZ)
-    mc.move_forward(3.2, .75)
+    mc.forward(3.2, .75)
     mc.land()
+
 
 ######### Start Program ###########
 if __name__ == '__main__':
