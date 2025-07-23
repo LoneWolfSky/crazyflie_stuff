@@ -91,25 +91,19 @@ def custom_function(mc):
     mc.forward(0.3,0.5)
     time.sleep(1)
     mc.right(current_possition.d_right - 0.2, 0.5)
-    farthest = 0
-    farthestI = 0
+    last3fwds = [0,0,0]
     for i in range(18):
-        if current_possition.d_front >= farthest:
-            farthest = current_possition.d_front
-            farthestI = i
-            print("New Farthest!", farthest, farthestI)
-        
-        print("Blocked/Shorter", current_possition.d_front, current_possition.x + current_possition.y)
-
+        last3fwds[i%3] = current_possition.d_front
         mc.left(0.1, 0.5)
-        time.sleep(1)
-
-    print(farthestI, farthest, "Going!!!!!! LFGGGGG")
-    mc.right((18-farthestI) * 0.1, 0.5)
+        print(last3fwds)
+        time.sleep(.5)
+        if(last3fwds[0] == last3fwds[1] == last3fwds[2] == 16.384):
+            mc.right(0.1)
+            break
     mc.forward(3.7, .75)
-    mc.up(1,.5)
-    loc = [1.01, 0.65] #this is what the fwd and right readings should be in a perfect world
+    loc = [1, 1.45] #this is what the fwd and right readings should be in a perfect world
     actLoc = [current_possition.d_front, current_possition.d_right] # this is the drone's current values for those readings
+    print("+Left/-Right: ", loc[1] - actLoc[1], "\n+Fwd/-Bck: ", loc[0] - actLoc[0])
     mc.move_distance(loc[0] - actLoc[0], loc[1] - actLoc[1], 0, 0.5)
     mc.land()
 
