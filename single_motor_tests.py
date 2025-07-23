@@ -64,30 +64,31 @@ def take_off_simple(scf):
             key_pressed = keyboard.read_key()
             match key_pressed:
                 case 'w':
-                    mc.start_forward()
+                    mc.start_forward(.5)
                 case 's':
-                    mc.start_back()
+                    mc.start_back(.5)
                 case 'l':
                     mc.land()
                 case 'a':
-                    mc.start_left()
+                    mc.start_left(.5)
                 case 'd':
-                    mc.start_right()
+                    mc.start_right(.5)
                 case 'q':
-                    mc.start_turn_left()
+                    mc.start_turn_left(45)
                 case 'e':
-                    mc.start_turn_right()
+                    mc.start_turn_right(45)
                 case 'shift':
-                    mc.start_up()
+                    mc.start_up(.5)
                 case 'ctrl':
-                    mc.start_down()
-                case 'space':
-                    mc.stop()
+                    mc.start_down(.5)
                 case 'g':
                     flip(mc)
                 case 'p':
                     break
+                case _:
+                    mc.stop()
             time.sleep(0.1)
+            print(key_pressed)
 
 def param_deck_flow(_, value_str):
     value = int(value_str)
@@ -138,8 +139,8 @@ if __name__ == '__main__':
 
         print("check3")
 
-        #take_off_simple(scf)
+        take_off_simple(scf)
 
         #actual_takeoff(scf)
         
-        simple_param_async(scf, "skbidi", "toilet")
+        #simple_param_async(scf, "skbidi", "toilet")

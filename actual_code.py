@@ -20,6 +20,19 @@ logging.basicConfig(level=logging.ERROR)
 # Motion commander
 mc = None
 
+def simple_log(scf, logconf):
+    with SyncLogger(scf, logconf) as logger:
+
+        for log_entry in logger:
+
+            timestamp = log_entry[0]
+            data = log_entry[1]
+            logconf_name = log_entry[2]
+
+            print('[%d][%s]: %s' % (timestamp, logconf_name, data))
+
+            break
+
 # define deck 
 deck_attached_event = Event()
 def param_deck_flow(_, value_str):
@@ -58,7 +71,6 @@ class State():
         self.d_front = data['range.front']
         self.d_back = data['range.back']
         self.d_bottom = data['range.zrange']
-        print(PendingDeprecationWarning)
 
 current_possition = State()
 
@@ -70,14 +82,34 @@ def position_update_callback(timestamp, data, logconf):
     global current_possition
     current_possition.update(data, timestamp)
 
-def custom_function():
-    mc.take_off(height=DEFAULT_HEIGHT, velocity=0.6)
+def custom_function(mc):
+    mc.take_off(height=0.75, velocity=0.6)
     print("Hello")
+    print("Let's get this bread")
     time.sleep(1)
-    mc.land(0.2)
-    print("Stop")
+    mc.forward(0.4,0.5)
+    time.sleep(1)
+    mc.right(current_possition.d_right - 0.2, 0.5)
+    farthest = 0
+    farthestPos = 0
 
-    current_possition.d_front
+    for i in range(18):
+        if current_possition.d_front <= farthest:
+            farthest = current_possition.d_front
+            farthestPos = [current_possition.x, current_possition.y, current_possition.z]
+            print(current_possition.d_front, current_possition.x)
+        
+        mc.left(0.1, 0.5)
+        time.sleep(1)
+
+
+    print(farthestPos, farthest)
+    dirX = farthestPos[0] - current_possition.x
+    dirY = farthestPos[1] - current_possition.y
+    dirZ = farthestPos[2] - current_possition.z
+    mc.move_distance(dirX, dirY, dirZ)
+    mc.move_forward(3.2, .75)
+    mc.land()
 
 ######### Start Program ###########
 if __name__ == '__main__':
@@ -111,7 +143,7 @@ if __name__ == '__main__':
         logconf.start()
         
         
-        custom_function()
+        custom_function(mc)
 
         
         logconf.stop()
