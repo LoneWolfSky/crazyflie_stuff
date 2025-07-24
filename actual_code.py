@@ -84,7 +84,7 @@ def position_update_callback(timestamp, data, logconf):
 
 
 def custom_function(mc):
-    mc.take_off(height=0.655, velocity=1)
+    mc.take_off(height=0.67, velocity=1)
     print("Hello")
     print("Let's get this bread")
     time.sleep(1)
@@ -104,15 +104,16 @@ def custom_function(mc):
         last3fwds[i%3] = current_possition.d_front
         mc.left(0.1, 0.5)
         print(last3fwds)
-        time.sleep(.5)
+        time.sleep(1)
         if(current_possition.d_left < .2):
             break
         if(last3fwds[0] >= minFwd and last3fwds[1] >= minFwd and last3fwds[2] >= minFwd):
-            mc.right(0.15)
+            mc.right(0.1)
             break
     mc.forward(3, .75)
+    mc.up(0.3, 1)
     print(current_possition.d_front - 0.55, current_possition.d_right - 0.15)
-    mc.right(current_possition.d_right - 0.15, 0.5)
+    mc.right(current_possition.d_right - 0.55, 0.5)
     print("Rigthted")
     mc.forward(current_possition.d_front - 0.55, 0.5)
     print("Backed")
