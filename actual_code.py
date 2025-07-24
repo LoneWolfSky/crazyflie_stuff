@@ -87,11 +87,14 @@ def custom_function(mc):
     mc.take_off(height=0.67, velocity=1)
     print("Hello")
     print("Let's get this bread")
+    mc.turn_right(current_possition.yaw)
     time.sleep(1)
     mc.forward(0.3,0.5)
+    mc.turn_right(current_possition.yaw)
     time.sleep(1)
     mc.right(current_possition.d_right - 0.2, 0.5)
     based = 0
+    mc.turn_right(current_possition.yaw)
     for i in range(12):
         based += current_possition.d_bottom
     based = based / 12
@@ -101,32 +104,82 @@ def custom_function(mc):
     last3fwds = [0,0,0]
     minFwd = 2.8
     for i in range(18):
+        print(current_possition.yaw)
         last3fwds[i%3] = current_possition.d_front
         mc.left(0.1, 0.5)
         print(last3fwds)
         time.sleep(1)
         if(current_possition.d_left < .2):
+            mc.turn_right(current_possition.yaw)
             break
         if(last3fwds[0] >= minFwd and last3fwds[1] >= minFwd and last3fwds[2] >= minFwd):
             mc.right(0.1)
             break
-    mc.forward(3, .75)
+    mc.turn_right(current_possition.yaw)
+    mc.forward(3.1, .75)
+    mc.turn_right(current_possition.yaw)
     mc.up(0.3, 1)
-    print(current_possition.d_front - 0.55, current_possition.d_right - 0.15)
-    mc.right(current_possition.d_right - 0.55, 0.5)
+    mc.turn_right(current_possition.yaw)
+    print(current_possition.x,current_possition.y,current_possition.z)
+    mc.right(current_possition.d_right - 0.25, 0.4)
+    mc.turn_right(current_possition.yaw)
+    mc.turn_left(90)
+    mc.land()
+    distToBox = 0
+    while current_possition.d_front >= 10:
+        #lmao get stuck in an infinite loop dumbass
+        print("shot too far")
+    distToBox = current_possition.d_front + 0.2
+    print("distance to box = ", distToBox)
+    mc.take_off(1, 0.5)
+    mc.turn_right(current_possition.yaw)
+    mc.forward(distToBox, 0.4)
+    mc.turn_right(current_possition.yaw)
+    mc.land()
+    mc.turn_right(current_possition.yaw)
+    mc.turn_right(current_possition.yaw)
+    mc.turn_right(current_possition.yaw)
+    mc.turn_right(current_possition.yaw)
+    mc.turn_right(current_possition.yaw)
+    mc.turn_right(current_possition.yaw)
+    mc.turn_right(current_possition.yaw)
+    mc.turn_right(current_possition.yaw)
+    mc.turn_right(current_possition.yaw)
+    mc.turn_right(current_possition.yaw)
+    mc.turn_right(current_possition.yaw)
+    mc.turn_right(current_possition.yaw)
+    mc.turn_right(current_possition.yaw)
+    mc.turn_right(current_possition.yaw)
+    mc.turn_right(current_possition.yaw)
+    mc.turn_right(current_possition.yaw)
+    mc.turn_right(current_possition.yaw)
+    mc.turn_right(current_possition.yaw)
+    mc.turn_right(current_possition.yaw)
+    mc.turn_right(current_possition.yaw)
+    mc.turn_right(current_possition.yaw)
+    mc.turn_right(current_possition.yaw)
+    mc.turn_right(current_possition.yaw)
+    mc.turn_right(current_possition.yaw)
+    mc.turn_right(current_possition.yaw)
+    mc.turn_right(current_possition.yaw)
+    mc.turn_right(current_possition.yaw)
+    mc.turn_right(current_possition.yaw)
+    mc.turn_right(current_possition.yaw)
+    mc.turn_right(current_possition.yaw)
+    mc.turn_right(current_possition.yaw)
+    '''old code
     print("Rigthted")
-    mc.forward(current_possition.d_front - 0.55, 0.5)
-    print("Backed")
-    for i in range(14):
+    for i in range(18):
         diff = abs(current_possition.d_bottom - based)
         print(diff)
         time.sleep(1)
         if diff > 0.3:
+            mc.left(0.2, 0.5)
             break   
         else:
             mc.left(0.1, 0.5)
     print("skibidi")
-    mc.land()
+    mc.land()'''
 
 
 ######### Start Program ###########
