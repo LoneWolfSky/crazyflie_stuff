@@ -103,6 +103,8 @@ def custom_function(mc):
         mc.left(0.1, 0.5)
         print(last3fwds)
         time.sleep(.5)
+        if(current_possition.d_left < .2):
+            break
         if(last3fwds[0] >= 2.1 and last3fwds[1] >= 2.1 and last3fwds[2] >= 2.1):
             mc.right(0.15)
             break
