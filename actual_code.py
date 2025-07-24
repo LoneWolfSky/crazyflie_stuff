@@ -94,10 +94,12 @@ def custom_function(mc):
     based = 0
     for i in range(12):
         based += current_possition.d_bottom
-    based // 12
+    based = based / 12
     round(based, 1)
+    print(based)
     #based is the standard average height of the drone
     last3fwds = [0,0,0]
+    minFwd = 2.8
     for i in range(18):
         last3fwds[i%3] = current_possition.d_front
         mc.left(0.1, 0.5)
@@ -105,19 +107,24 @@ def custom_function(mc):
         time.sleep(.5)
         if(current_possition.d_left < .2):
             break
-        if(last3fwds[0] >= 2.1 and last3fwds[1] >= 2.1 and last3fwds[2] >= 2.1):
+        if(last3fwds[0] >= minFwd and last3fwds[1] >= minFwd and last3fwds[2] >= minFwd):
             mc.right(0.15)
             break
     mc.forward(3, .75)
-    mc.forward(current_possition.d_front - 0.55, 0.5)
+    print(current_possition.d_front - 0.55, current_possition.d_right - 0.15)
     mc.right(current_possition.d_right - 0.15, 0.5)
+    print("Rigthted")
+    mc.forward(current_possition.d_front - 0.55, 0.5)
+    print("Backed")
     for i in range(14):
         diff = abs(current_possition.d_bottom - based)
+        print(diff)
         time.sleep(1)
-        if diff > 0.4:
+        if diff > 0.3:
             break   
         else:
             mc.left(0.1, 0.5)
+    print("skibidi")
     mc.land()
 
 
