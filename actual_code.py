@@ -84,27 +84,38 @@ def position_update_callback(timestamp, data, logconf):
 
 
 def custom_function(mc):
-    mc.take_off(height=0.7, velocity=1)
+    mc.take_off(height=0.655, velocity=1)
     print("Hello")
     print("Let's get this bread")
     time.sleep(1)
     mc.forward(0.3,0.5)
     time.sleep(1)
     mc.right(current_possition.d_right - 0.2, 0.5)
+    based = 0
+    for i in range(12):
+        based += current_possition.d_bottom
+    based // 12
+    round(based, 1)
+    #based is the standard average height of the drone
     last3fwds = [0,0,0]
     for i in range(18):
         last3fwds[i%3] = current_possition.d_front
         mc.left(0.1, 0.5)
         print(last3fwds)
         time.sleep(.5)
-        if(last3fwds[0] == last3fwds[1] == last3fwds[2] == 16.384):
-            mc.right(0.1)
+        if(last3fwds[0] >= 2.1 and last3fwds[1] >= 2.1 and last3fwds[2] >= 2.1):
+            mc.right(0.15)
             break
-    mc.forward(3.7, .75)
-    loc = [1, 1.45] #this is what the fwd and right readings should be in a perfect world
-    actLoc = [current_possition.d_front, current_possition.d_right] # this is the drone's current values for those readings
-    print("+Left/-Right: ", loc[1] - actLoc[1], "\n+Fwd/-Bck: ", loc[0] - actLoc[0])
-    mc.move_distance(loc[0] - actLoc[0], loc[1] - actLoc[1], 0, 0.5)
+    mc.forward(3, .75)
+    mc.forward(current_possition.d_front - 0.55, 0.5)
+    mc.right(current_possition.d_right - 0.15, 0.5)
+    for i in range(14):
+        diff = abs(current_possition.d_bottom - based)
+        time.sleep(1)
+        if diff > 0.4:
+            break   
+        else:
+            mc.left(0.1, 0.5)
     mc.land()
 
 

@@ -66,38 +66,44 @@ def flip(mc):
 
 #this is a comment
     
-def take_off_simple(scf):
-    with MotionCommander(scf, default_height = 0.5) as mc:
-        time.sleep(2)
-        while(True):
-            key_pressed = keyboard.read_key()
-            match key_pressed:
-                case 'w':
-                    mc.start_forward(.5)
-                case 's':
-                    mc.start_back(.5)
-                case 'l':
-                    mc.land()
-                case 'a':
-                    mc.start_left(.5)
-                case 'd':
-                    mc.start_right(.5)
-                case 'q':
-                    mc.start_turn_left(45)
-                case 'e':
-                    mc.start_turn_right(45)
-                case 'shift':
-                    mc.start_up(.5)
-                case 'ctrl':
-                    mc.start_down(.5)
-                case 'g':
-                    flip(mc)
-                case 'p':
-                    break
-                case 'space':
-                    mc.stop()
-            time.sleep(0.1)
-            print(key_pressed)
+def take_off_simple(scf, logconf):
+    mc = MotionCommander(scf)
+    mc.take_off(.5,.5)
+    time.sleep(2)
+    cf = scf.cf
+    cf.log.add_config(logconf)
+    logconf.data_received_cb.add_callback(log_stab_callback)
+    logconf.start()
+    while(True):
+        key_pressed = keyboard.read_key()
+        match key_pressed:
+            case 'w':
+                mc.start_forward(.5)
+            case 's':
+                mc.start_back(.5)
+            case 'l':
+                mc.land()
+            case 'a':
+                mc.start_left(.5)
+            case 'd':
+                mc.start_right(.5)
+            case 'q':
+                mc.start_turn_left(45)
+            case 'e':
+                mc.start_turn_right(45)
+            case 'shift':
+                mc.start_up(.5)
+            case 'ctrl':
+                mc.start_down(.5)
+            case 'g':
+                flip(mc)
+            case 'p':
+                logconf.stop()
+                break
+            case 'space':
+                mc.stop()
+        time.sleep(0.1)
+        print(key_pressed)
 
 def param_deck_flow(_, value_str):
     value = int(value_str)
@@ -113,13 +119,17 @@ def simple_log(scf, logconf):
 
         for log_entry in logger:
 
-            timestamp = log_entry[0]
+            #timestamp = log_entry[0]
             data = log_entry[1]
-            logconf_name = log_entry[2]
+            #logconf_name = log_entry[2]
 
-            print('[%d][%s]: %s' % (timestamp, logconf_name, data))
+            print(data)
 
             break
+
+def log_stab_callback(timestamp, data, logconf):
+    if timestamp // 10 % 10 == 0:
+        print('[%d][%s]: %s' % (timestamp, logconf.name, data))
 
 if __name__ == '__main__':
     # Initialize the low-level drivers
@@ -127,6 +137,9 @@ if __name__ == '__main__':
 
     lg_stab = LogConfig(name='MotorPowerSet', period_in_ms=10)
     lg_stab.add_variable('motorPowerSet.m1', 'float')
+
+    lg_zrange = LogConfig(name = "Range", period_in_ms=10)
+    lg_zrange.add_variable('range.zrange', 'FP16')
 
     with SyncCrazyflie(uri1, cf=Crazyflie(rw_cache='./cache')) as scf:
 
@@ -148,8 +161,8 @@ if __name__ == '__main__':
 
         print("check3")
 
-        #take_off_simple(scf)
+        take_off_simple(scf, lg_zrange)
 
-        actual_takeoff(scf)
+        #actual_takeoff(scf)
         
         #simple_param_async(scf, "skbidi", "toilet")
