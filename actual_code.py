@@ -117,7 +117,7 @@ def custom_function(mc):
 
     mc.forward(3.1, .75)
    
-    #mc.up(0.3, 1)
+    mc.up(0.3, 1)
 
     time.sleep(1)
     print(current_possition.x,current_possition.y,current_possition.z)
