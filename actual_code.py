@@ -105,14 +105,13 @@ def custom_function(mc):
     for i in range(18):
         print(current_possition.yaw)
         last3fwds[i%3] = current_possition.d_front
-        mc.left(0.15, 0.5)
+        mc.left(0.1, 0.5)
         print(last3fwds)
         time.sleep(1)
         if(current_possition.d_left < .2):
             if current_possition.yaw > 0.1 or current_possition.yaw < -.1: mc.turn_right(current_possition.yaw)
             break
-        if(last3fwds[0] >= minFwd and last3fwds[1] >= minFwd):
-                                                                #and last3fwds[2] >= minFwd
+        if(last3fwds[0] >= minFwd and last3fwds[1] >= minFwd and last3fwds[2] >= minFwd):
             mc.right(0.1)
             break
 
@@ -121,6 +120,9 @@ def custom_function(mc):
     mc.up(0.3, 1)
 
     time.sleep(1)
+
+    mc.backwards(current_possition.x - 1, 0.3)
+
     print(current_possition.x,current_possition.y,current_possition.z)
     mc.right(current_possition.d_right - 0.25, 0.4)
 
