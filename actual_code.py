@@ -111,7 +111,8 @@ def custom_function(mc):
         if(current_possition.d_left < .2):
             if current_possition.yaw > 0.1 or current_possition.yaw < -.1: mc.turn_right(current_possition.yaw)
             break
-        if(last3fwds[0] >= minFwd and last3fwds[1] >= minFwd and last3fwds[2] >= minFwd):
+        if(last3fwds[0] >= minFwd and last3fwds[1] >= minFwd):
+                                                                #and last3fwds[2] >= minFwd
             mc.right(0.1)
             break
 
