@@ -91,7 +91,7 @@ def custom_function(mc):
     mc.forward(0.3,0.5)
     time.sleep(1)
     mc.right(current_possition.d_right - 0.2, 0.5)
-    time.sleep(1)
+    #time.sleep(1)
     based = 0
     for i in range(12):
         based += current_possition.d_bottom
@@ -105,7 +105,7 @@ def custom_function(mc):
     for i in range(18):
         print(current_possition.yaw)
         last3fwds[i%3] = current_possition.d_front
-        mc.left(0.1, 0.5)
+        mc.left(0.15, 0.5)
         print(last3fwds)
         time.sleep(1)
         if(current_possition.d_left < .2):
