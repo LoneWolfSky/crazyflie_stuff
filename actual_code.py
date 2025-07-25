@@ -84,15 +84,14 @@ def position_update_callback(timestamp, data, logconf):
 
 
 def custom_function(mc):
-    mc.take_off(height=0.67, velocity=1)
+    mc.take_off(height=0.5, velocity=0.3)
     print("Hello")
     print("Let's get this bread")
-    if current_possition.yaw > 0: mc.turn_right(current_possition.yaw)
     time.sleep(1)
     mc.forward(0.3,0.5)
-    if current_possition.yaw > 0: mc.turn_right(current_possition.yaw)
     time.sleep(1)
     mc.right(current_possition.d_right - 0.2, 0.5)
+    time.sleep(1)
     based = 0
     for i in range(12):
         based += current_possition.d_bottom
@@ -100,7 +99,6 @@ def custom_function(mc):
     round(based, 1)
     print(based)
     time.sleep(0.1)
-    if current_possition.yaw > 0: mc.turn_right(current_possition.yaw)
     #based is the standard average height of the drone
     last3fwds = [0,0,0]
     minFwd = 2.8
@@ -111,19 +109,20 @@ def custom_function(mc):
         print(last3fwds)
         time.sleep(1)
         if(current_possition.d_left < .2):
-            if current_possition.yaw > 0: mc.turn_right(current_possition.yaw)
+            if current_possition.yaw > 0.1 or current_possition.yaw < -.1: mc.turn_right(current_possition.yaw)
             break
         if(last3fwds[0] >= minFwd and last3fwds[1] >= minFwd and last3fwds[2] >= minFwd):
             mc.right(0.1)
             break
-    if current_possition.yaw > 0: mc.turn_right(current_possition.yaw)
+
     mc.forward(3.1, .75)
-    if current_possition.yaw > 0: mc.turn_right(current_possition.yaw)
-    mc.up(0.3, 1)
-    if current_possition.yaw > 0: mc.turn_right(current_possition.yaw)
+   
+    #mc.up(0.3, 1)
+
+    time.sleep(1)
     print(current_possition.x,current_possition.y,current_possition.z)
     mc.right(current_possition.d_right - 0.25, 0.4)
-    if current_possition.yaw > 0: mc.turn_right(current_possition.yaw)
+
     mc.turn_left(90)
     mc.land()
     distToBox = 0
@@ -132,22 +131,11 @@ def custom_function(mc):
         print("shot too far")
     distToBox = current_possition.d_front + 0.2
     print("distance to box = ", distToBox)
-    mc.take_off(1, 0.5)
-    if current_possition.yaw > 0: mc.turn_right(current_possition.yaw)
+    mc.take_off(0.5, 0.3)
+
     mc.forward(distToBox, 0.4)
-    if current_possition.yaw > 0: mc.turn_right(current_possition.yaw)
+ 
     mc.land()
-    if current_possition.yaw > 0: mc.turn_right(current_possition.yaw)
-    if current_possition.yaw > 0: mc.turn_right(current_possition.yaw)
-    if current_possition.yaw > 0: mc.turn_right(current_possition.yaw)
-    if current_possition.yaw > 0: mc.turn_right(current_possition.yaw)
-    if current_possition.yaw > 0: mc.turn_right(current_possition.yaw)
-    if current_possition.yaw > 0: mc.turn_right(current_possition.yaw)
-    if current_possition.yaw > 0: mc.turn_right(current_possition.yaw)
-    if current_possition.yaw > 0: mc.turn_right(current_possition.yaw)
-    if current_possition.yaw > 0: mc.turn_right(current_possition.yaw)
-    if current_possition.yaw > 0: mc.turn_right(current_possition.yaw)
-    if current_possition.yaw > 0: mc.turn_right(current_possition.yaw)
     '''old code
     print("Rigthted")
     for i in range(18):

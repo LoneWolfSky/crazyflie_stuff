@@ -68,12 +68,8 @@ def flip(mc):
     
 def take_off_simple(scf, logconf):
     mc = MotionCommander(scf)
-    mc.take_off(.5,.5)
-    time.sleep(2)
-    cf = scf.cf
-    cf.log.add_config(logconf)
-    logconf.data_received_cb.add_callback(log_stab_callback)
-    logconf.start()
+    mc.take_off(.5,.3)
+    time.sleep(1)
     while(True):
         key_pressed = keyboard.read_key()
         match key_pressed:
@@ -98,7 +94,6 @@ def take_off_simple(scf, logconf):
             case 'g':
                 flip(mc)
             case 'p':
-                logconf.stop()
                 break
             case 'space':
                 mc.stop()
